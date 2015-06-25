@@ -9,6 +9,7 @@ function smagenBot (options) {
   this.username = options.username;
   this.chatId = "";
   this.offset = 0;
+  this.quiet = options.quiet || false;
 
   this.wrapper = function(cmd, cb) {
     cb = cb || function(){ if (!self.quiet) { console.log('Sent'); } };
