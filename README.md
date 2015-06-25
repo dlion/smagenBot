@@ -10,7 +10,7 @@ Edit config.json
 token: "YOUR BOT TOKEN",
 interval: "everytime it has to check messages"
 quiet: true if you want to know when it send a message, false if not
-username: false allows your bot to send messages to everyone othervise put it your username and it will send messages only to you
+username: false allows your bot to send messages to everyone otherwise put it your username and it will send messages only to you
 ```
 
 ## List of Plugins
