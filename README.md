@@ -30,6 +30,9 @@ That's all.
 
 To use it send to your bot `/name`.
 
+## Screenshot
+![screen1](http://i.imgur.com/ZM2MzKa.png)
+
 ## TODO
 * Start plugin
 * Move plugins directory on the root of the repo
