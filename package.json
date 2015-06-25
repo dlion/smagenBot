@@ -1,8 +1,7 @@
 {
   "name": "smagebot",
   "version": "1.0.0",
-  "description": "A simple personal Telegram bot plugins based".
-,
+  "description": "A simple personal Telegram bot plugins based",
   "main": "./index.js",
   "dependencies": {
     "request": "^2.58.0"
