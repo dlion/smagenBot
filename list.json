@@ -1,0 +1,6 @@
+{
+    "/help": "Show the list of plugins",
+    "/os": "Show information about OS",
+    "/weather <city>": "Show weather information about <city>",
+    "/pokemon <pokemon name>": "Show information about <pokemon>"
+}
