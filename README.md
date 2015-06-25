@@ -30,6 +30,9 @@ That's all.
 
 To use it send to your bot `/name`.
 
+## TODO
+* Start plugin
+
 ## Author
 * Domenico Luciani aka DLion
 * http://dlion.it
