@@ -32,6 +32,7 @@ To use it send to your bot `/name`.
 
 ## TODO
 * Start plugin
+* Move plugins directory on the root of the repo
 
 ## Author
 * Domenico Luciani aka DLion
