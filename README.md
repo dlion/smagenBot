@@ -20,6 +20,7 @@ Currently I have made these plugins:
 * `/os` - Send to me my OS information
 * `/weather <city>` - Send to me my city's weather informations
 * `/pokemon <name>` - Send to me informations about <name> pokémon
+* `/expand <url>` - Expand a short url
 
 ## Add a Plugin
 * To add a simple plugin you have to add `name.js` file to a `bin/plugins` directory.
@@ -36,6 +37,7 @@ To use it send to your bot `/name`.
 ## TODO
 * Start plugin
 * Move plugins directory on the root of the repo
+* More plugins
 
 ## Author
 * Domenico Luciani aka DLion
