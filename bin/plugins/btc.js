@@ -17,6 +17,7 @@ var exec = function (param, cb) {
       json: true
     }, function (err, resp, body) {
       if (!err) {
+        param = param.toUpperCase();    // because params are "uppercase" eg.EUR or USD
         if(resp.statusCode === 200 && typeof body[param] !== "undefined") {
           var ticker = body[param];
           return cb({
