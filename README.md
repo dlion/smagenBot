@@ -15,7 +15,7 @@ botname: Your bot nick
 ```
 
 ## List of Plugins
-To see a list of plugins send `/help` to your bot or list files in `bin/plugins` directory
+To see a list of plugins send `/help` to your bot or list files in `plugins/` directory
 
 Currently I have made these plugins:
 * `/os` - Send to me my OS information
@@ -24,9 +24,10 @@ Currently I have made these plugins:
 * `/expand <url>` - Expand a short `<url>`
 * `/btc <currency>` - Show quotation of Bitcoin in `<currency>`
 * `/imdb <film>` - Show information about a `<film>`
+* `/xkcd <id> or <random>` - Send an image from xkcd
 
 ## Add a Plugin
-* To add a simple plugin you have to add `name.js` file to a `bin/plugins` directory.
+* To add a simple plugin you have to add `name.js` file to a `plugins/` directory.
 * Follow the examples to make your own plugin.
 * Add your plugin command and description to a `list.json` file
 
@@ -39,9 +40,14 @@ To use it send to your bot `/name`.
 
 ## TODO
 - [ ] Start plugin
-- [ ] Move plugins directory on the root of the repo
+- [x] Move plugins directory on the root of the repo
 - [ ] More plugins
 - [x] if use /command@nickname your bot answer only if nickname is his name
+- [x] The bot can send images
+- [x] The bot can send chatAction
+- [ ] The bot can send audio files
+- [ ] The bot can send video files
+- [ ] The bot can send documents
 
 ## Author
 * Domenico Luciani aka DLion
