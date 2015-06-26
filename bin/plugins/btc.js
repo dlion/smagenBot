@@ -1,3 +1,8 @@
+/**
+ * bitcoin ticker plugin for smagenBot
+ * @author carlo "blackout" denaro
+ * @link http://github.com/blackout314
+ */
 var request = require('request');
 
 var exec = function (param, cb) {
