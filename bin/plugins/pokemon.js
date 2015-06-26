@@ -8,7 +8,7 @@ var exec = function (param, cb) {
     var APIURL = "http://pokeapi.co/api/v1/pokemon/";
     request({
       method: 'GET',
-      url: APIURL+param,
+      url: APIURL+(param.toLowerCase()),
       json: true
     }, function (err, resp, body) {
       if (!err) {
