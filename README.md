@@ -11,6 +11,7 @@ token: "YOUR BOT TOKEN",
 interval: "everytime it has to check messages"
 quiet: true if you want to know when it send a message, false if not
 username: false allows your bot to send messages to everyone otherwise put it your username and it will send messages only to you
+botname: Your bot nick
 ```
 
 ## List of Plugins
@@ -36,9 +37,10 @@ To use it send to your bot `/name`.
 ![screen1](http://i.imgur.com/ZM2MzKa.png)
 
 ## TODO
-* Start plugin
-* Move plugins directory on the root of the repo
-* More plugins
+- [ ] Start plugin
+- [ ] Move plugins directory on the root of the repo
+- [ ] More plugins
+- [x] if use /command@nickname your bot answer only if nickname is his name
 
 ## Author
 * Domenico Luciani aka DLion

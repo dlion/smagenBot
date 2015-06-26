@@ -2,5 +2,6 @@
     "token": "TOKEN",
     "interval": "1000",
     "quiet": true,
-    "username": ["YOURUSERNAME"]
+    "username": ["YOURUSERNAME"],
+    "botName": "BOTNAME"
 }
