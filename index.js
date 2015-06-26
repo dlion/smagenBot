@@ -16,10 +16,13 @@ function check() {
           if(!bot.username) {
             bot.makeAction(current.message.text);
           } else {
-            if(bot.username == current.message.from.username) {
+            if (bot.username.indexOf(current.message.from.username) != -1)
+            {
               bot.makeAction(current.message.text);
-            } else {
-              bot.sendMessage("Only "+config.username+" can use me!");
+            }
+            else
+            {
+              bot.sendMessage("Only "+JSON.stringify(config.username)+" can use me!");
             }
           }
         }
