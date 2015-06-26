@@ -36,7 +36,7 @@ smagenBot.prototype.sendMessage = function (message) {
 
 smagenBot.prototype.makeAction = function (text) {
   var param;
-  if(text.charAt(0) === '/') {
+  if(typeof text !== "undefined" && text.charAt(0) === '/') {
     var commands = text.split(' ');
     if(commands.length > 1) {
       param = commands[1];
