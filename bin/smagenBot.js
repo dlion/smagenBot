@@ -1,4 +1,5 @@
 var request = require('request'),
+    formData = require('form-data'),
     query = require('querystring');
 
 function smagenBot (options) {
@@ -12,13 +13,44 @@ function smagenBot (options) {
   this.quiet = options.quiet || false;
   this.botName = options.botName || 'smagenBot';
 
-  this.wrapper = function(cmd, cb) {
-    cb = cb || function(){ if (!self.quiet) { console.log('Sent'); } };
+  //Wrapper to send text messages
+  this.wrapperText = function(route, chatId, text, cb) {
+    cb = cb || function(){ if (!self.quiet) { console.log('Text Sent'); } };
     request({
       method: 'GET',
-      url: this.APIURL+this.token+'/'+cmd,
+      url: this.APIURL+this.token+'/'+route+chatId+text,
       json: true
     }, function (err, resp, body) {
+      if (!err && resp.statusCode === 200) {
+        cb(null, body);
+      } else {
+        cb(err, null);
+      }
+    });
+  };
+
+  //Wrapper to send images from an url
+  this.wrapperPhoto = function(route, chatId, url, cb) {
+    cb = cb || function() { if (!self.quiet) { console.log('Photo Sent'); } };
+    var form = new formData();
+    form.append('chat_id', chatId);
+    form.append('photo', request(url));
+    form.submit(this.APIURL+this.token+'/'+route, function(err, resp) {
+      if(!err && resp.statusCode === 200) {
+        cb(null, resp);
+      } else {
+        cb(err, null);
+      }
+    });
+  };
+
+  //Wrapper to send status
+  this.wrapperAction = function(route, chatId, action, cb) {
+    request({
+      method: 'GET',
+      url: this.APIURL+this.token+'/'+route+chatId+action,
+      json: true
+    }, function ( err, resp, body) {
       if (!err && resp.statusCode === 200) {
         cb(null, body);
       } else {
@@ -29,11 +61,19 @@ function smagenBot (options) {
 }
 
 smagenBot.prototype.getUpdates = function (cb) {
-  this.wrapper('getUpdates', cb);
+  this.wrapperText('getUpdates', '', '', cb);
 };
 
 smagenBot.prototype.sendMessage = function (message) {
-    this.wrapper('sendMessage?chat_id=' + this.chatId +'&text='+message);
+    this.wrapperText('sendMessage', '?chat_id=' + this.chatId, '&text='+message);
+};
+
+smagenBot.prototype.sendPhoto = function (url, cb) {
+  this.wrapperPhoto('sendPhoto', this.chatId, url, cb);
+};
+
+smagenBot.prototype.sendAction = function(action, cb) {
+  this.wrapperAction('sendChatAction', '?chat_id=' + this.chatId, '&action='+action, cb);
 };
 
 smagenBot.prototype.makeAction = function (text) {
@@ -41,14 +81,15 @@ smagenBot.prototype.makeAction = function (text) {
       nick = false;
   if(typeof text !== "undefined" && text.charAt(0) === '/') {
     text = text.split(' ');
+    //If send more parameters
     if(text.length > 0) {
       for(var i = 1; i < text.length; i++) {
-        param += text[i]+" ";
+        param += (i < text.length-1) ? text[i]+" " : text[i];
       }
     }
-    //if there is a nick on the command, must be my name
     var command = text[0].replace('/',''); //Remove slash
-    command = text[0].split('@'); //looking for a nick
+    //if there is a nick on the command, must be my name
+    command = command.split('@'); //looking for a nick
     var plugin = command[0];
     if(command.length > 0) {
       nick = command[1];
@@ -57,12 +98,28 @@ smagenBot.prototype.makeAction = function (text) {
     if(!nick || (nick && nick === this.botName)) {
       try {
         var self = this;
-        require('./plugins/'+plugin)(param, function(obj) {
-          var str = "";
-          for(var key in obj) {
-            str += key + ": "+query.escape(obj[key])+"%0A";
+        require('../plugins/'+plugin)(param, function(obj, type) {
+          if(type === "text") {
+            var str = "";
+            for(var key in obj) {
+              str += key + ": "+query.escape(obj[key])+"%0A";
+            }
+            self.sendAction('typing', function(err, res) {
+              if(!err) {
+                self.sendMessage(str);
+              }
+            });
+          } else if(type === "photo") {
+            self.sendAction('upload_photo', function(err, res) {
+              if(!err) {
+                self.sendPhoto(obj.url, function(err, res) {
+                  if(err) {
+                    self.sendMessage("Error during the upload on the Telegram Servers");
+                  }
+                });
+              }
+            });
           }
-          self.sendMessage(str);
         });
       } catch(err) {
         var strError = (err.name === "Error") ?
