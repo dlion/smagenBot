@@ -19,10 +19,11 @@ To see a list of plugins send `/help` to your bot or list files in `bin/plugins`
 
 Currently I have made these plugins:
 * `/os` - Send to me my OS information
-* `/weather <city>` - Send to me my city's weather informations
-* `/pokemon <name>` - Send to me informations about <name> pokémon
-* `/expand <url>` - Expand a short url
-* `/btc <currency>` - Show quotation of Bitcoin in <currency>
+* `/weather <city>` - Send to me my `<city>`'s weather informations
+* `/pokemon <name>` - Send to me informations about `<name>` pokémon
+* `/expand <url>` - Expand a short `<url>`
+* `/btc <currency>` - Show quotation of Bitcoin in `<currency>`
+* `/imdb <film>` - Show information about a `<film>`
 
 ## Add a Plugin
 * To add a simple plugin you have to add `name.js` file to a `bin/plugins` directory.
