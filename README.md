@@ -21,6 +21,7 @@ Currently I have made these plugins:
 * `/weather <city>` - Send to me my city's weather informations
 * `/pokemon <name>` - Send to me informations about <name> pokémon
 * `/expand <url>` - Expand a short url
+* `/btc <currency>` - Show quotation of Bitcoin in <currency>
 
 ## Add a Plugin
 * To add a simple plugin you have to add `name.js` file to a `bin/plugins` directory.
