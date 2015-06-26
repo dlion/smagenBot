@@ -37,12 +37,14 @@ smagenBot.prototype.sendMessage = function (message) {
 };
 
 smagenBot.prototype.makeAction = function (text) {
-  var param,
+  var param = "",
       nick = false;
   if(typeof text !== "undefined" && text.charAt(0) === '/') {
     text = text.split(' ');
     if(text.length > 0) {
-      param = text[1];
+      for(var i = 1; i < text.length; i++) {
+        param += text[i]+" ";
+      }
     }
     //if there is a nick on the command, must be my name
     var command = text[0].replace('/',''); //Remove slash
