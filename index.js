@@ -5,7 +5,7 @@ var bot = new smagenBot(config);
 
 function check() {
   bot.getUpdates(function (err, body) {
-    if (!err) {
+    if (!err && body !== null) {
       if (body.result.length > 0) {
         //Watch the last message
         var current = body.result[body.result.length-1];
@@ -24,6 +24,8 @@ function check() {
           }
         }
       }
+    } else {
+      throw new Error("Error on getUpdates");
     }
   });
 }
