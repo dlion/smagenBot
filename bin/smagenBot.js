@@ -44,6 +44,21 @@ function smagenBot (options) {
     });
   };
 
+  //wrapper to send documents from an url
+  this.wrapperDocument = function(route, chatId, url, cb) {
+    cb = cb || function() { if (!self.quiet) { console.log('Document Sent'); } };
+    var form = new formData();
+    form.append('chat_id', chatId);
+    form.append('document', request(url));
+    form.submit(this.APIURL+this.token+'/'+route, function(err, resp) {
+      if(!err && resp.statusCode === 200) {
+        cb(null, resp);
+      } else {
+        cb(err, null);
+      }
+    });
+  };
+
   //Wrapper to send status
   this.wrapperAction = function(route, chatId, action, cb) {
     request({
@@ -70,6 +85,10 @@ smagenBot.prototype.sendMessage = function (message) {
 
 smagenBot.prototype.sendPhoto = function (url, cb) {
   this.wrapperPhoto('sendPhoto', this.chatId, url, cb);
+};
+
+smagenBot.prototype.sendDocument = function (url, cb) {
+  this.wrapperDocument('sendDocument', this.chatId, url, cb);
 };
 
 smagenBot.prototype.sendAction = function(action, cb) {

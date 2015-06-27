@@ -43,11 +43,11 @@ To use it send to your bot `/name`.
 - [x] Move plugins directory on the root of the repo
 - [ ] More plugins
 - [x] if use /command@nickname your bot answer only if nickname is his name
-- [x] The bot can send images
+- [x] The bot can send images from an url
 - [x] The bot can send chatAction
 - [ ] The bot can send audio files
 - [ ] The bot can send video files
-- [ ] The bot can send documents
+- [x] The bot can send documents from an url
 
 ## Author
 * Domenico Luciani aka DLion
