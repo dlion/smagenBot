@@ -30,11 +30,15 @@ function smagenBot (options) {
   };
 
   //Wrapper to send images from an url
-  this.wrapperPhoto = function(route, chatId, url, cb) {
+  this.wrapperPhoto = function(route, chatId, url, caption, cb) {
     cb = cb || function() { if (!self.quiet) { console.log('Photo Sent'); } };
     var form = new formData();
     form.append('chat_id', chatId);
     form.append('photo', request(url));
+    if(caption !== '') {
+      form.append('caption', caption);
+    }
+
     form.submit(this.APIURL+this.token+'/'+route, function(err, resp) {
       if(!err && resp.statusCode === 200) {
         cb(null, resp);
@@ -83,8 +87,8 @@ smagenBot.prototype.sendMessage = function (message) {
     this.wrapperText('sendMessage', '?chat_id=' + this.chatId, '&text='+message);
 };
 
-smagenBot.prototype.sendPhoto = function (url, cb) {
-  this.wrapperPhoto('sendPhoto', this.chatId, url, cb);
+smagenBot.prototype.sendPhoto = function (url, caption, cb) {
+  this.wrapperPhoto('sendPhoto', this.chatId, url, caption, cb);
 };
 
 smagenBot.prototype.sendDocument = function (url, cb) {
@@ -131,7 +135,7 @@ smagenBot.prototype.makeAction = function (text) {
           } else if(type === "photo") {
             self.sendAction('upload_photo', function(err, res) {
               if(!err) {
-                self.sendPhoto(obj.url, function(err, res) {
+                self.sendPhoto(obj.url, obj.caption, function(err, res) {
                   if(err) {
                     self.sendMessage("Error during the upload on the Telegram Servers");
                   }
