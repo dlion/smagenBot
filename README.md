@@ -35,6 +35,13 @@ That's all.
 
 To use it send to your bot `/name`.
 
+## How plugins works
+Plugins have to put into an `exec` function that have one parameter and returns a callback with 2 parameters:
+* The first parameter is an array of objects
+* The second parameter is an array of strings. These strings coincide to type of the objects returns.
+
+So if for example: if the first object is a text object the first element of the type's array is `"text"`, if the second is a photo object the second element of the type's array is `"photo"` and so on.
+
 ## Screenshot
 ![screen1](http://i.imgur.com/ZM2MzKa.png)
 
@@ -48,6 +55,7 @@ To use it send to your bot `/name`.
 - [ ] The bot can send audio files
 - [ ] The bot can send video files
 - [x] The bot can send documents from an url
+- [x] Plugins can send more messages at once (photo, text, etc.)
 
 ## Author
 * Domenico Luciani aka DLion
