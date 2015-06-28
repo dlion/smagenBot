@@ -14,7 +14,7 @@ var exec = function (param, cb) {
     }, function (err, resp, body) {
       if (!err) {
         if(resp.statusCode === 200) {
-          return cb({
+          return cb([{
             title: body.Title,
             year: body.Year,
             released: body.Released,
@@ -24,11 +24,15 @@ var exec = function (param, cb) {
             actors: body.Actors,
             awards: body.Awards,
             poster: body.Poster
-          }, "text");
+          },
+          {
+            url: body.Poster,
+            caption: body.Title
+          }], ["text", "photo"]);
         } else {
-          return cb({
+          return cb([{
             error: "Film not found"
-          }, "text");
+          }], ["text"]);
         }
       }
 

@@ -13,9 +13,7 @@ var exec = function (param, cb) {
       json:true
     }, function (err, resp, body) {
       if(!err) {
-        return cb({
-          longUrl: body['long-url']
-        }, "text");
+        return cb([{ longUrl: body['long-url'] }],["text"]);
       }
 
       error = new Error("Cannot retrieve information about long url");

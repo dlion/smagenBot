@@ -13,7 +13,7 @@ var exec = function (param, cb) {
     }, function (err, resp, body) {
       if (!err) {
         if(resp.statusCode === 200) {
-          return cb({
+          return cb([{
             name: body.name,
             nationalId: body.national_id,
             specialAttack: body.sp_atk,
@@ -25,11 +25,11 @@ var exec = function (param, cb) {
             height: body.height,
             weight: body.weight,
             hp: body.hp
-          }, "text");
+          }], ["text"]);
         } else {
-          return cb({
+          return cb([{
             error: "Pokémon not found"
-          }, "text");
+          }], ["text"]);
         }
       }
 

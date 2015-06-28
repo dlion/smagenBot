@@ -12,14 +12,14 @@ var exec = function(param, cb) {
       json: true
     }, function (err, resp, body) {
       if(!err) {
-        return cb({
+        return cb([{
           main: body.weather[0].main,
           description: body.weather[0].description,
           temp: body.main.temp,
           humidity: body.main.humidity,
           windSpeed: body.wind.speed,
           clouds: body.clouds.all
-        }, "text");
+        }], ["text"]);
       }
 
       error = new Error("Cannot retrieve information about weather");

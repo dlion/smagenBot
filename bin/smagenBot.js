@@ -121,27 +121,29 @@ smagenBot.prototype.makeAction = function (text) {
     if(!nick || (nick && nick === this.botName)) {
       try {
         var self = this;
-        require('../plugins/'+plugin)(param, function(obj, type) {
-          if(type === "text") {
-            var str = "";
-            for(var key in obj) {
-              str += key + ": "+query.escape(obj[key])+"%0A";
+        require('../plugins/'+plugin)(param, function(objs, types) {
+          for(var i in objs) {
+            if(types[i] === "text") {
+              var str = "";
+              for(var key in objs[i]) {
+                str += key + ": "+query.escape(objs[i][key])+"%0A";
+              }
+              self.sendAction('typing', function(err, res) {
+                if(!err) {
+                  self.sendMessage(str);
+                }
+              });
+            } else if(types[i] === "photo") {
+              self.sendAction('upload_photo', function(err, res) {
+                if(!err) {
+                  self.sendPhoto(objs[i].url, objs[i].caption, function(err, res) {
+                    if(err) {
+                      self.sendMessage("Error during the upload on the Telegram Servers");
+                    }
+                  });
+                }
+              });
             }
-            self.sendAction('typing', function(err, res) {
-              if(!err) {
-                self.sendMessage(str);
-              }
-            });
-          } else if(type === "photo") {
-            self.sendAction('upload_photo', function(err, res) {
-              if(!err) {
-                self.sendPhoto(obj.url, obj.caption, function(err, res) {
-                  if(err) {
-                    self.sendMessage("Error during the upload on the Telegram Servers");
-                  }
-                });
-              }
-            });
           }
         });
       } catch(err) {

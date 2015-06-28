@@ -24,14 +24,14 @@ function doRequest(APIURL, cb) {
   }, function (err, resp, body) {
     if (!err) {
       if(resp.statusCode === 200) {
-        return cb({
+        return cb([{
           url: body.img,
           caption: body.safe_title
-        }, "photo");
+          }], ["photo"]);
       } else {
-        return cb({
+        return cb([{
           error: "Id not found"
-        }, "text");
+        }], ["text"]);
       }
     }
 
@@ -47,17 +47,19 @@ var exec = function (param, cb) {
   name = "Xkcd Plugin";
 
   if(param) {
-    if(param === "random") {
-      getLastId(function(lastId) {
+    getLastId(function(lastId) {
+      if(param === "random") {
         var id = Math.floor(Math.random() * lastId);
 
         APIURL = "http://xkcd.com/"+id+"/info.0.json";
         doRequest(APIURL, cb);
-      });
-    } else {
-        APIURL = "http://xkcd.com/"+param+"/info.0.json";
-        doRequest(APIURL, cb);
-    }
+      } else {
+        if(parseInt(param, 10) <= lastId) {
+          APIURL = "http://xkcd.com/"+parseInt(param,10)+"/info.0.json";
+          doRequest(APIURL, cb);
+        }
+      }
+    });
   } else {
     error = new Error("You must specify which id you want to see");
     error.name = name;

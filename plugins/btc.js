@@ -20,16 +20,15 @@ var exec = function (param, cb) {
         param = param.toUpperCase();    // because params are "uppercase" eg.EUR or USD
         if(resp.statusCode === 200 && typeof body[param] !== "undefined") {
           var ticker = body[param];
-          return cb({
-            currency: ticker.symbol,
-            exchange: ticker.last,
-            buy: ticker.buy,
-            sell: ticker.sell
-          }, "text");
+          return cb(
+            [{
+              currency: ticker.symbol,
+              exchange: ticker.last,
+              buy: ticker.buy,
+              sell: ticker.sell
+            }], ["text"]);
         } else {
-          return cb({
-            error: "Currency not found"
-          }, "text");
+          return cb([{ error: "Currency not found" }], ["text"]);
         }
       }
 

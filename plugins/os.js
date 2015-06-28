@@ -10,13 +10,13 @@ var exec = function (param, cb) {
     uptime = parseInt(os.uptime() / 3600, 10) + "Minutes";
   }
 
-  return cb({
+  return cb([{
     hostname: os.hostname(),
     type: os.type(),
     platform: os.platform(),
     arch: os.arch(),
     uptime: uptime
-  }, "text");
+  }], ["text"]);
 };
 
 module.exports = exec;
