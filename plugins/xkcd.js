@@ -25,7 +25,8 @@ function doRequest(APIURL, cb) {
     if (!err) {
       if(resp.statusCode === 200) {
         return cb({
-          url: body.img
+          url: body.img,
+          caption: body.safe_title
         }, "photo");
       } else {
         return cb({
