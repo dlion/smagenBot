@@ -53,7 +53,7 @@ So if for example: if the first object is a text object the first element of the
 - [x] The bot can send images from an url
 - [x] The bot can send chatAction
 - [ ] The bot can send audio files
-- [ ] The bot can send video files
+- [x] The bot can send videos from an url
 - [x] The bot can send documents from an url
 - [x] Plugins can send more messages at once (photo, text, etc.)
 

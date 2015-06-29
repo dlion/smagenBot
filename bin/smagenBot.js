@@ -63,6 +63,21 @@ function smagenBot (options) {
     });
   };
 
+  //wrapper to send videos from an url
+  this.wrapperVideo = function(route, chatId, url, cb) {
+    cb = cb || function() { if (!self.quiet) { console.log("Video Sent"); } };
+    var form = new formData();
+    form.append('chat_id', chatId);
+    form.append('video', request(url));
+    form.submit(this.APIURL+this.token+'/'+route, function(err, resp) {
+      if(!err && resp.statusCode === 200) {
+        cb(null, resp);
+      } else {
+        cb(err, null);
+      }
+    });
+  };
+
   //Wrapper to send status
   this.wrapperAction = function(route, chatId, action, cb) {
     request({
@@ -93,6 +108,10 @@ smagenBot.prototype.sendPhoto = function (url, caption, cb) {
 
 smagenBot.prototype.sendDocument = function (url, cb) {
   this.wrapperDocument('sendDocument', this.chatId, url, cb);
+};
+
+smagenBot.prototype.sendVideo = function (url, cb) {
+  this.wrapperVideo('sendVideo', this.chatId, url, cb);
 };
 
 smagenBot.prototype.sendAction = function(action, cb) {
@@ -138,7 +157,17 @@ smagenBot.prototype.makeAction = function (text) {
                 if(!err) {
                   self.sendPhoto(objs[i].url, objs[i].caption, function(err, res) {
                     if(err) {
-                      self.sendMessage("Error during the upload on the Telegram Servers");
+                      self.sendMessage("Error during the upload on the Telegram's Servers");
+                    }
+                  });
+                }
+              });
+            } else if(types[i] === "video") {
+              self.sendAction('upload_video', function(err, res) {
+                if(!err) {
+                  self.sendVideo(objs[i].url, function(err, res) {
+                    if(!err) {
+                      self.sendMessage("Error during the upload on the Telegram's Servers");
                     }
                   });
                 }
