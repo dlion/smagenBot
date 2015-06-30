@@ -42,29 +42,21 @@ function doRequest(APIURL, cb) {
 }
 
 var exec = function (param, cb) {
-  var error,
-      APIURL,
-  name = "Xkcd Plugin";
+  var APIURL;
 
-  if(param) {
-    getLastId(function(lastId) {
-      if(param === "random") {
-        var id = Math.floor(Math.random() * lastId);
+  getLastId(function(lastId) {
+    if(!param || param === "" || param === "random") {
+      var id = Math.floor(Math.random() * lastId);
 
-        APIURL = "http://xkcd.com/"+id+"/info.0.json";
+      APIURL = "http://xkcd.com/"+id+"/info.0.json";
+      doRequest(APIURL, cb);
+    } else {
+      if(parseInt(param, 10) <= lastId) {
+        APIURL = "http://xkcd.com/"+parseInt(param,10)+"/info.0.json";
         doRequest(APIURL, cb);
-      } else {
-        if(parseInt(param, 10) <= lastId) {
-          APIURL = "http://xkcd.com/"+parseInt(param,10)+"/info.0.json";
-          doRequest(APIURL, cb);
-        }
       }
-    });
-  } else {
-    error = new Error("You must specify which id you want to see");
-    error.name = name;
-    throw error;
-  }
+    }
+  });
 };
 
 module.exports = exec;
