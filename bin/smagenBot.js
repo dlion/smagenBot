@@ -99,7 +99,7 @@ smagenBot.prototype.getUpdates = function (cb) {
 };
 
 smagenBot.prototype.sendMessage = function (message) {
-    this.wrapperText('sendMessage', '?chat_id=' + this.chatId, '&text='+message);
+    this.wrapperText('sendMessage', '?chat_id=' + this.chatId, '&text='+encodeURIComponent(message));
 };
 
 smagenBot.prototype.sendPhoto = function (url, caption, cb) {
