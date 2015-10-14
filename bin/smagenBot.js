@@ -143,10 +143,14 @@ smagenBot.prototype.makeAction = function (text) {
         require('../plugins/'+plugin)(param, function(objs, types) {
           for(var i in objs) {
             if(types[i] === "text") {
+
               var str = "";
               for(var key in objs[i]) {
-                str += key + ": "+query.escape(objs[i][key])+"%0A";
+                str += ((key!=="STRING") ? (key + ": ") : "") + 
+                  query.escape(objs[i][key]) +
+                  "\n";
               }
+
               self.sendAction('typing', function(err, res) {
                 if(!err) {
                   self.sendMessage(str);
