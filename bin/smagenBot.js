@@ -1,6 +1,13 @@
 var request = require('request'),
     formData = require('form-data'),
-    query = require('querystring');
+    query = require('querystring'),
+    winston = require('winston');;
+
+var logger = new (winston.Logger)({
+    transports: [
+        new (winston.transports.File)({ filename: 'smagen.log' })
+    ]
+});
 
 function smagenBot (options) {
   var self = this;
@@ -15,7 +22,12 @@ function smagenBot (options) {
 
   //Wrapper to send text messages
   this.wrapperText = function(route, chatId, text, cb) {
-    cb = cb || function(){ if (!self.quiet) { console.log('Text Sent'); } };
+    cb = cb || function(){ 
+      if (!self.quiet) { 
+        console.log('Text Sent');
+        logger.log('info', 'Text Sent to <'+chatId+'>.');
+      } 
+    };
     request({
       method: 'GET',
       url: this.APIURL+this.token+'/'+route+chatId+text,
