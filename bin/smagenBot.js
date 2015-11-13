@@ -1,13 +1,7 @@
 var request = require('request'),
     formData = require('form-data'),
     query = require('querystring'),
-    winston = require('winston');;
-
-var logger = new (winston.Logger)({
-    transports: [
-        new (winston.transports.File)({ filename: 'smagen.log' })
-    ]
-});
+    winston = require('winston');
 
 function smagenBot (options) {
   var self = this;
@@ -19,6 +13,11 @@ function smagenBot (options) {
   this.offset = 0;
   this.quiet = options.quiet || false;
   this.botName = options.botName || 'smagenBot';
+  this.logger = new (winston.Logger)({
+    transports: [
+      new (winston.transports.File)({ filename: options.logFile })
+    ]
+  });
 
   //Wrapper to send text messages
   this.wrapperText = function(route, chatId, text, cb) {
@@ -43,7 +42,7 @@ function smagenBot (options) {
 
   //Wrapper to send images from an url
   this.wrapperPhoto = function(route, chatId, url, caption, cb) {
-    cb = cb || function() { if (!self.quiet) { console.log('Photo Sent'); } };
+    cb = cb || function() { if (!self.quiet) { console.log('Photo Sent'); this.logger.log('info', 'Photo Sent to <'+chatId+'>.'); } };
     var form = new formData();
     form.append('chat_id', chatId);
     form.append('photo', request(url));
@@ -62,7 +61,7 @@ function smagenBot (options) {
 
   //wrapper to send documents from an url
   this.wrapperDocument = function(route, chatId, url, cb) {
-    cb = cb || function() { if (!self.quiet) { console.log('Document Sent'); } };
+    cb = cb || function() { if (!self.quiet) { console.log('Document Sent'); this.logger.log('info', 'Document Sent to <'+chatId+'>.'); } };
     var form = new formData();
     form.append('chat_id', chatId);
     form.append('document', request(url));
@@ -77,7 +76,7 @@ function smagenBot (options) {
 
   //wrapper to send videos from an url
   this.wrapperVideo = function(route, chatId, url, cb) {
-    cb = cb || function() { if (!self.quiet) { console.log("Video Sent"); } };
+    cb = cb || function() { if (!self.quiet) { console.log("Video Sent"); this.logger.log('info', 'Video Sent to <'+chatId+'>.'); } };
     var form = new formData();
     form.append('chat_id', chatId);
     form.append('video', request(url));
@@ -153,6 +152,7 @@ smagenBot.prototype.makeAction = function (text) {
       try {
         var self = this;
         require('../plugins/'+plugin)(param, function(objs, types) {
+          var errStr = "Error during the upload on the Telegram's Servers";
           for(var i in objs) {
             if(types[i] === "text") {
 
@@ -173,7 +173,8 @@ smagenBot.prototype.makeAction = function (text) {
                 if(!err) {
                   self.sendPhoto(objs[i].url, objs[i].caption, function(err, res) {
                     if(err) {
-                      self.sendMessage("Error during the upload on the Telegram's Servers");
+                      self.sendMessage(errStr);
+		      this.logger.log('error', errStr);
                     }
                   });
                 }
@@ -183,7 +184,8 @@ smagenBot.prototype.makeAction = function (text) {
                 if(!err) {
                   self.sendVideo(objs[i].url, function(err, res) {
                     if(!err) {
-                      self.sendMessage("Error during the upload on the Telegram's Servers");
+                      self.sendMessage(errStr);
+		      this.logger.log('error', errStr);
                     }
                   });
                 }
@@ -195,6 +197,7 @@ smagenBot.prototype.makeAction = function (text) {
         var strError = (err.name === "Error") ?
           "Plugin not found. Type /help to see the plugins list" : err.message;
         this.sendMessage(strError);
+	this.logger.log('error', strError);
       }
     }
   }
