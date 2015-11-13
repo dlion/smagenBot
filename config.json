@@ -3,5 +3,6 @@
     "interval": "1000",
     "quiet": true,
     "username": ["YOURUSERNAME"],
-    "botName": "BOTNAME"
+    "botName": "BOTNAME",
+    "logFile": "smagen.log"
 }
