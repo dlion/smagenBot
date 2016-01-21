@@ -47,7 +47,7 @@ So if for example: if the first object is a text object the first element of the
 
 ## Log Example
 ```
-    this.wrapperText('sendMessage', '?chat_id=' + this.chatId, '&text='+encodeURIComponent(message));
+{"level":"info","message":"Text Sent to <?chat_id=-2572583>.","timestamp":"2016-01-21T14:27:42.668Z"}
 ```
 
 ## TODO
