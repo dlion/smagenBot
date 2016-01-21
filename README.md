@@ -45,6 +45,11 @@ So if for example: if the first object is a text object the first element of the
 ## Screenshot
 ![screen1](http://i.imgur.com/ZM2MzKa.png)
 
+## Log Example
+```
+    this.wrapperText('sendMessage', '?chat_id=' + this.chatId, '&text='+encodeURIComponent(message));
+```
+
 ## TODO
 - [ ] Start plugin
 - [x] Move plugins directory on the root of the repo
