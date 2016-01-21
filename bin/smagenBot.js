@@ -1,7 +1,8 @@
 var request = require('request'),
     formData = require('form-data'),
     query = require('querystring'),
-    winston = require('winston');
+    winston = require('winston'),
+    logger = {};
 
 function smagenBot (options) {
   var self = this;
@@ -13,7 +14,7 @@ function smagenBot (options) {
   this.offset = 0;
   this.quiet = options.quiet || false;
   this.botName = options.botName || 'smagenBot';
-  this.logger = new (winston.Logger)({
+  logger = new (winston.Logger)({
     transports: [
       new (winston.transports.File)({ filename: options.logFile })
     ]
@@ -110,7 +111,7 @@ smagenBot.prototype.getUpdates = function (cb) {
 };
 
 smagenBot.prototype.sendMessage = function (message) {
-    this.wrapperText('sendMessage', '?chat_id=' + this.chatId, '&text='+encodeURIComponent(message));
+    this.wrapperText('sendMessage', '?chat_id=' + this.chatId, '&text='+(message));
 };
 
 smagenBot.prototype.sendPhoto = function (url, caption, cb) {
