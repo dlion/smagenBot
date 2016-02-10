@@ -2,7 +2,7 @@ var request = require('request'),
     formData = require('form-data'),
     query = require('querystring'),
     winston = require('winston'),
-    logger = {};
+    logger;
 
 function smagenBot (options) {
   var self = this;

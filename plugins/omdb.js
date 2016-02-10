@@ -6,7 +6,7 @@ var exec = function (param, cb) {
       name = "IMDB Plugin";
 
   if(param) {
-    var APIURL = "http://www.imdbapi.com/?t=";
+    var APIURL = "http://www.omdbapi.com/?t=";
     request({
       method: 'GET',
       url: APIURL+(query.escape(param)),
